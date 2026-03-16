@@ -20,9 +20,9 @@ define('SITE_INS', 'https://instagram.com/krishibhai');
 
 // Database Credentials
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'krishibh_db');
-define('DB_USER', 'krishibh_admin');
-define('DB_PASS', 'mFeU+uXlawV73%{4');
+define('DB_NAME', 'krishibhai_db');
+define('DB_USER', 'krishibhai_admin');
+define('DB_PASS', 'Sir@@@admin123');
 
 // Paths
 define('ROOT_PATH', __DIR__);
