@@ -1,0 +1,6 @@
+deployment:
+  auth:
+    user: krishibhai
+    repository: https://github.com/smmonirhasan92/krishibhai.git
+  tasks:
+    - /bin/cp -R * /home/krishibhai/public_html

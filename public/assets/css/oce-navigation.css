@@ -1,0 +1,123 @@
+/* OCE Premium Navigation & Mega Menu System */
+:root {
+    --oce-primary: #007bff;
+    --oce-secondary: #6c757d;
+    --oce-bg-light: #f8f9fa;
+    --oce-glass-bg: rgba(255, 255, 255, 0.85);
+    --oce-glass-border: rgba(255, 255, 255, 0.4);
+    --oce-text: #333;
+    --oce-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+.oce-navbar {
+    background: var(--oce-glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--oce-glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+.oce-nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.oce-nav-menu {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+}
+
+.oce-nav-item {
+    position: relative;
+    padding: 10px 0;
+}
+
+.oce-nav-link {
+    text-decoration: none;
+    color: var(--oce-text);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.oce-nav-link:hover {
+    color: var(--oce-primary);
+}
+
+/* Mega Menu Styles */
+.oce-mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 600px;
+    background: white;
+    box-shadow: var(--oce-shadow);
+    border-radius: 12px;
+    padding: 20px;
+    display: none;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    border: 1px solid var(--oce-glass-border);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.oce-nav-item:hover .oce-mega-menu {
+    display: grid;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.oce-mega-column h4 {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: var(--oce-primary);
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.oce-mega-list {
+    list-style: none;
+    padding: 0;
+}
+
+.oce-mega-list li {
+    margin-bottom: 8px;
+}
+
+.oce-mega-list a {
+    text-decoration: none;
+    color: var(--oce-secondary);
+    font-size: 14px;
+    transition: padding-left 0.2s;
+}
+
+.oce-mega-list a:hover {
+    color: var(--oce-primary);
+    padding-left: 5px;
+}
+
+/* Pharma Specific Item */
+.oce-brand-badge {
+    background: #e3f2fd;
+    color: #0d47a1;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+@media (max-width: 768px) {
+    .oce-nav-menu {
+        display: none; /* Mobile will use Accordion */
+    }
+}

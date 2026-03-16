@@ -1,0 +1,6 @@
+deployment:
+  auth:
+    user: zamankitchens
+    repository: https://github.com/smmonirhasan92/zamankitchens.git
+  tasks:
+    - /bin/cp -R * /home/zamankitchens/public_html
