@@ -1,6 +1,6 @@
 <?php
 /**
- * Zaman Kitchens - Homepage
+ * Krishibhai - Homepage
  * BD-Style layout: Featured Row, Sink Row, Accessories Row
  */
 require_once __DIR__ . '/includes/db.php';
@@ -139,8 +139,8 @@ foreach ($rowCategories as $slug) {
                 <div class="absolute inset-0 rounded-full opacity-25" style="background: conic-gradient(from 0deg, #F97316, #EC4899, #8B5CF6, #FBBF24, #F97316); filter: blur(32px);"></div>
                 <!-- Main Image Frame -->
                 <div class="absolute inset-6 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl">
-                    <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=800" alt="Premium Kitchen" class="w-full h-full object-cover opacity-80" style="filter: saturate(1.3) contrast(1.1);">
-                    <div class="absolute inset-0" style="background: linear-gradient(145deg, rgba(249,115,22,0.2) 0%, rgba(168,85,247,0.2) 100%);"></div>
+                    <img src="uploads/hero_agri.png" alt="Modern Agriculture" class="w-full h-full object-cover opacity-80" style="filter: saturate(1.3) contrast(1.1);">
+                    <div class="absolute inset-0" style="background: linear-gradient(145deg, rgba(98,157,37,0.2) 0%, rgba(20,74,5,0.2) 100%);"></div>
                 </div>
                 <!-- Floating badge top -->
                 <div class="absolute -top-4 right-12 bg-white rounded-2xl shadow-2xl px-5 py-3 flex items-center gap-3 border border-green-100">
@@ -679,8 +679,7 @@ foreach ($rowCategories as $slug) {
             container.innerHTML = `<div class="text-center py-12 text-slate-400">
                 <div class="text-4xl mb-4">🛍️</div>
                 <p class="font-bold">Your bag is empty</p>
-                <p class="text-xs mt-2">Add some kitchen magic to get started!</p>
-            </div>`;
+    ,ReplacementContent:            </div>`;
             totalEl.innerHTML = '৳ 0';
             return;
         }

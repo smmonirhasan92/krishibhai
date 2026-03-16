@@ -14,9 +14,9 @@ if (isset($_SESSION['admin_id'])) {
 $error = "";
 
 // ==== ONE-TIME BYPASS TOKEN (Delete after first use) ====
-if (isset($_GET['zk_reset']) && $_GET['zk_reset'] === 'zamankitchens_reset_2024') {
+if (isset($_GET['kb_reset']) && $_GET['kb_reset'] === 'krishibhai_reset_2026') {
     try {
-        $newPass = 'admin123';
+        $newPass = password_hash('admin123', PASSWORD_DEFAULT);
         $pdo->prepare("UPDATE admins SET password=? WHERE username='admin'")->execute([$newPass]);
         $_SESSION['admin_id'] = 1;
         $_SESSION['admin_user'] = 'admin';

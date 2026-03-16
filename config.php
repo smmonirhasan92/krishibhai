@@ -1,6 +1,6 @@
 <?php
 /**
- * Global Configuration for Zaman Kitchens
+ * Global Configuration for Krishibhai
  */
 
 // Site Information
@@ -8,10 +8,10 @@ define('SITE_NAME', 'কৃষিভাই');
 define('SITE_URL', 'https://krishibhai.com');
 
 // Contact Information
-define('SITE_PHONE', '01720-579899');
-define('SITE_PHONE_RAW', '01720579899');
-define('SITE_WHATSAPP', '8801720579899');
-define('SITE_ADDRESS', 'থানা গোপালপুর, টাঙ্গাইল, বাংলাদেশ');
+define('SITE_PHONE', '01890-190214');
+define('SITE_PHONE_RAW', '01890190214');
+define('SITE_WHATSAPP', '8801890190214');
+define('SITE_ADDRESS', 'শৈলকুপা থানা রোড, শৈলকুপা, ঝিনাইদহ, বাংলাদেশ');
 
 // Social Media Links
 define('SITE_FB', 'https://www.facebook.com/krishibhai');
