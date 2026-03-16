@@ -12,7 +12,7 @@ try {
     $stmt = $pdo->query("DESCRIBE products");
     $existing = array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'Field');
     
-    if (in_array('main_image', existing) && !in_array('image', $existing)) {
+    if (in_array('main_image', $existing) && !in_array('image', $existing)) {
         echo "Renaming <b>main_image</b> to <b>image</b>... ";
         $pdo->exec("ALTER TABLE products CHANGE main_image image VARCHAR(255) DEFAULT NULL");
         echo "<span style='color:green'>Success</span><br>";

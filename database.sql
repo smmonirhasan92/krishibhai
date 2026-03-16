@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS categories (
     hero_image VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- 2. Products Table (Added gallery_images, is_featured)
+-- 2. Products Table
 CREATE TABLE IF NOT EXISTS products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT,
@@ -21,9 +21,16 @@ CREATE TABLE IF NOT EXISTS products (
     slug VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
     price DECIMAL(10,2) NOT NULL,
+    purchase_price DECIMAL(10,2) DEFAULT 0.00,
+    stock_qty INT DEFAULT 0,
     stock_status ENUM('In Stock', 'Out of Stock') DEFAULT 'In Stock',
-    main_image VARCHAR(255),
+    image VARCHAR(255) DEFAULT NULL,
     gallery_images JSON DEFAULT NULL,
+    variations LONGTEXT DEFAULT NULL,
+    specifications LONGTEXT DEFAULT NULL,
+    barcode VARCHAR(100) DEFAULT NULL,
+    meta_title VARCHAR(255) DEFAULT NULL,
+    meta_description TEXT DEFAULT NULL,
     is_featured BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
