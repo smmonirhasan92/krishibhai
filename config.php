@@ -29,6 +29,9 @@ define('ROOT_PATH', __DIR__);
 define('INCLUDES_PATH', ROOT_PATH . '/includes');
 define('ASSETS_PATH', SITE_URL . '/assets');
 
+// Portable Homepage Categories (Slugs from categories table)
+define('FEATURED_CATEGORY_SLUGS', ['seeds', 'fertilizer', 'tools', 'pesticides']);
+
 // Security Key
 define('SECRET_KEY', 'zaman_kitchen_secret_v1');
 

@@ -53,7 +53,9 @@ try {
 <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:1.25rem; margin-bottom:1.75rem;">
     <!-- KPI 1 -->
     <div class="kpi-card">
-        <div class="kpi-icon" style="background: rgba(98, 157, 37, 0.1);">🔥</div>
+        <div class="kpi-icon" style="background: rgba(98, 157, 37, 0.1); color: #629d25;">
+            <i class="ph-bold ph-currency-circle-dollar"></i>
+        </div>
         <div class="kpi-value">৳ <?php echo number_format($totalRevenue); ?></div>
         <div class="kpi-label">মোট আয়</div>
         <div class="kpi-trend neutral">সর্বমোট (বাতিল ব্যতীত)</div>
@@ -61,7 +63,9 @@ try {
     </div>
     <!-- KPI 2 -->
     <div class="kpi-card">
-        <div class="kpi-icon" style="background: rgba(16,185,129,0.1);">📈</div>
+        <div class="kpi-icon" style="background: rgba(16,185,129,0.1); color: #10b981;">
+            <i class="ph-bold ph-chart-line-up"></i>
+        </div>
         <div class="kpi-value">৳ <?php echo number_format($todayRevenue); ?></div>
         <div class="kpi-label">আজকের আয়</div>
         <div class="kpi-trend up">↑ আজকের লাইভ তথ্য</div>
@@ -69,7 +73,9 @@ try {
     </div>
     <!-- KPI 3 -->
     <div class="kpi-card">
-        <div class="kpi-icon" style="background: rgba(59,130,246,0.1);">📦</div>
+        <div class="kpi-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">
+            <i class="ph-bold ph-package"></i>
+        </div>
         <div class="kpi-value"><?php echo number_format($totalOrders); ?></div>
         <div class="kpi-label">মোট অর্ডার</div>
         <div class="kpi-trend neutral"><?php echo $pendingCount; ?> কাজ বাকি</div>
@@ -77,7 +83,9 @@ try {
     </div>
     <!-- KPI 4 -->
     <div class="kpi-card">
-        <div class="kpi-icon" style="background: rgba(168,85,247,0.1);">🏷️</div>
+        <div class="kpi-icon" style="background: rgba(168,85,247,0.1); color: #a855f7;">
+            <i class="ph-bold ph-tag"></i>
+        </div>
         <div class="kpi-value"><?php echo number_format($totalProducts); ?></div>
         <div class="kpi-label">পণ্যের তালিকা</div>
         <div class="kpi-trend neutral"><?php echo $totalLeads; ?> লিড পাওয়া গেছে</div>

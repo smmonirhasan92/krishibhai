@@ -19,7 +19,7 @@ $jsData = json_encode([
 .zk-card:hover .zk-img { transform: scale(1.08); }
 .zk-img { transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .zk-buy-btn {
-    background: linear-gradient(135deg, #2b2d42, #1a1b2e);
+    background: linear-gradient(135deg, #144a05, #0a2e02);
     transition: all 0.3s ease;
     position: relative; overflow: hidden;
 }
@@ -35,7 +35,7 @@ $jsData = json_encode([
 }
 .zk-wishlist-btn:hover { background: rgba(98, 157, 37, 0.08); border-color: #629d25; color: #629d25; }
 </style>
-<div onclick='openQuickView(<?php echo $jsData; ?>)' class="zk-card cursor-pointer bg-white rounded-2xl overflow-hidden border border-gray-100/80 flex flex-col relative shadow-sm hover:shadow-2xl" style="box-shadow: 0 4px 15px -3px rgba(0,0,0,0.06);">
+<div onclick="window.location.href='product.php?slug=<?php echo $p['slug']; ?>'" class="zk-card cursor-pointer bg-white rounded-2xl overflow-hidden border border-gray-100/80 flex flex-col relative shadow-sm hover:shadow-2xl" style="box-shadow: 0 4px 15px -3px rgba(0,0,0,0.06);">
     <div class="overflow-hidden relative bg-slate-50" style="padding-top: 78%; display:flex; align-items:center; justify-content:center;">
         <?php if (!empty($p['image']) || !empty($p['main_image'])): ?>
             <img loading="lazy"

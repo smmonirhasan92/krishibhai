@@ -18,9 +18,9 @@ try {
     $gridCats = $pdo->query("SELECT * FROM categories ORDER BY id ASC LIMIT 11")->fetchAll();
 } catch(Exception $e) {}
 
-// Fetch products by specific categories for "BD Style" rows
+// Fetch products by specific categories for portable rows
 $categoryRows = [];
-$rowCategories = ['sink', 'kitchen-accessories', 'kitchen-hood', 'gas-stove'];
+$rowCategories = defined('FEATURED_CATEGORY_SLUGS') ? FEATURED_CATEGORY_SLUGS : ['seeds', 'fertilizer', 'tools'];
 foreach ($rowCategories as $slug) {
     try {
         $stmt = $pdo->prepare("SELECT p.*, c.name AS cat_name, c.hero_image AS cat_banner FROM products p LEFT JOIN categories c ON p.category_id = c.id WHERE c.slug = ? ORDER BY p.created_at DESC LIMIT 4");
