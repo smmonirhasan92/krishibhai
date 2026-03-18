@@ -38,126 +38,87 @@ foreach ($rowCategories as $slug) {
 ?>
 
 <!-- ===========================
-     HERO SLIDER SECTION — VIBRANT DARK EDITION
+     HERO SECTION — MINIMALIST KRISHI EDITION
 =========================== -->
 <style>
-    @keyframes hero-float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-18px); } }
-    @keyframes gradient-x { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
-    @keyframes pulse-ring { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.4); opacity: 0; } }
-    .hero-gradient-text {
-        background: linear-gradient(135deg, #ef233c 0%, #d80032 50%, #8d99ae 100%);
-        background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        background-size: 200% 200%; animation: gradient-x 4s ease infinite;
+    .krishi-hero {
+        height: 500px;
+        background: url('assets/images/hero_minimalist.png') center/cover no-repeat;
+        position: relative;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
     }
-    .hero-badge-pulse::before {
-        content: ''; position: absolute; inset: -4px; border-radius: 50px;
-        background: rgba(239,35,60,0.3); animation: pulse-ring 2s ease-out infinite;
+    .krishi-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.6) 50%, transparent 100%);
     }
-    .hero-cta-main {
-        background: linear-gradient(135deg, #ef233c, #d80032) !important;
-        box-shadow: 0 20px 40px -8px rgba(239,35,60,0.55) !important;
+    .hero-content {
+        position: relative;
+        z-index: 10;
+        max-width: 650px;
     }
-    .hero-cta-main:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 28px 50px -8px rgba(239,35,60,0.75) !important; }
-    .floating-blob1 { animation: hero-float 6s ease-in-out infinite; }
-    .floating-blob2 { animation: hero-float 8s ease-in-out infinite reverse; }
-    .floating-blob3 { animation: hero-float 7s ease-in-out 1s infinite; }
-    .hero-grid-bg {
-        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-        background-size: 60px 60px;
+    .hero-title {
+        color: #144a05;
+        font-size: 3.5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
     }
-    .stat-card { backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); background: rgba(43,45,66,0.5); }
+    .hero-subtitle {
+        color: #4b5563;
+        font-size: 1.25rem;
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+    }
+    .btn-krishi {
+        background: #629d25;
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 12px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        transition: all 0.3s;
+        box-shadow: 0 10px 20px -5px rgba(98, 157, 37, 0.4);
+    }
+    .btn-krishi:hover {
+        background: #4a771c;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 25px -5px rgba(98, 157, 37, 0.5);
+    }
+    @media (max-width: 768px) {
+        .krishi-hero { height: 450px; text-align: center; justify-content: center; }
+        .krishi-hero::before { background: rgba(255,255,255,0.85); }
+        .hero-title { font-size: 2.5rem; }
+    }
 </style>
-<section class="relative overflow-hidden" style="background: linear-gradient(145deg, #2b2d42 0%, #1a1b2e 50%, #0f0f1a 100%); min-height: 620px;">
-    <!-- Grid pattern -->
-    <div class="absolute inset-0 hero-grid-bg"></div>
 
-    <!-- Crimson & Indigo blobs -->
-    <div class="floating-blob1 absolute top-[-80px] left-[-80px] w-[500px] h-[500px] rounded-full opacity-25"
-         style="background: radial-gradient(circle, #ef233c 0%, transparent 70%);"></div>
-    <div class="floating-blob2 absolute bottom-[-100px] right-[-80px] w-[600px] h-[600px] rounded-full opacity-15"
-         style="background: radial-gradient(circle, #d80032 0%, transparent 70%);"></div>
-    <div class="floating-blob3 absolute top-[30%] right-[25%] w-[300px] h-[300px] rounded-full opacity-10"
-         style="background: radial-gradient(circle, #8d99ae 0%, transparent 70%);"></div>
-
-    <div class="relative z-10 container mx-auto px-4 py-20 md:py-28 flex flex-col md:flex-row items-center gap-16">
-        <!-- Left Content -->
-        <div class="flex-1 text-center md:text-left">
-            <!-- Badge -->
-            <div class="relative inline-flex items-center gap-2 mb-8">
-                <span class="hero-badge-pulse relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-[0.2em] backdrop-blur"
-                      style="background: rgba(98, 157, 37, 0.1); border: 1px solid rgba(98, 157, 37, 0.4); color: #629d25;">
-                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                    সেরা কৃষি পণ্য ও সরঞ্জাম — বাংলাদেশ
-                </span>
-            </div>
-
-            <!-- Heading -->
-            <h1 class="text-5xl md:text-7xl font-black leading-[1.05] mb-8 tracking-tight text-white">
-                আধুনিক কৃষি
-                <span class="block mt-2 hero-gradient-text">সফল কৃষক</span>
+<section class="krishi-hero">
+    <div class="container mx-auto px-4">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                আধুনিক কৃষি<br>
+                <span style="color: #629d25;">সফল কৃষক</span>
             </h1>
-
-            <p class="text-slate-400 text-lg md:text-xl mb-10 max-w-lg leading-relaxed font-medium">
-                বাংলাদেশের সেরা মানের বীজ, সার, কীটনাশক এবং আধুনিক কৃষি সরঞ্জাম।<br>
-                <span class="text-green-500 font-bold">৳ ৫০ থেকে শুরু</span> — ক্যাশ অন ডেলিভারি সুবিধা।
+            <p class="hero-subtitle">
+                বাংলাদেশের সেরা মানের বীজ, সার, কীটনাশক এবং আধুনিক কৃষি সরঞ্জাম। 
+                সাশ্রয়ী মূল্যে ঘরে বসেই অর্ডার করুন।
             </p>
-
-            <!-- CTAs -->
             <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-                <a href="#products" class="hero-cta-main inline-flex items-center gap-3 text-white font-black text-base px-10 py-4 rounded-2xl transition-all duration-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    এখনই কিনুন
+                <a href="#products" class="btn-krishi">
+                    <i class="ph ph-shopping-cart-simple"></i>
+                    কেনাকাটা শুরু করুন
                 </a>
-                <a href="#inquiry" class="inline-flex items-center gap-3 text-white font-bold text-base px-10 py-4 rounded-2xl border border-white/10 hover:bg-white/5 transition-all duration-300 backdrop-blur">
+                <a href="#inquiry" class="px-8 py-4 rounded-xl border-2 border-slate-200 text-slate-600 font-bold hover:bg-slate-50 transition">
                     পরামর্শ নিন
-                    <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </a>
-            </div>
-
-            <!-- Stats Row -->
-            <div class="flex flex-wrap gap-6 mt-12 justify-center md:justify-start">
-                <?php
-                $stats = [
-                    ['৫০০+', 'পণ্য'],
-                    ['৩,০০০+', 'সন্তুষ্ট কৃষক'],
-                    ['৫★', 'রেটেড সার্ভিস'],
-                ];
-                foreach($stats as $s):
-                ?>
-                <div class="stat-card rounded-2xl px-6 py-4 flex flex-col items-center md:items-start">
-                    <span style="background: linear-gradient(135deg, #ef233c, #d80032); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.6rem; font-weight: 900; line-height: 1;"><?php echo $s[0]; ?></span>
-                    <span class="text-xs font-bold uppercase tracking-widest mt-1" style="color: #8d99ae;"><?php echo $s[1]; ?></span>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-
-        <!-- Right Visual -->
-        <div class="flex-1 hidden md:flex items-center justify-center relative">
-            <div class="relative w-[480px] h-[480px]">
-                <!-- Outer glow ring -->
-                <div class="absolute inset-0 rounded-full opacity-25" style="background: conic-gradient(from 0deg, #F97316, #EC4899, #8B5CF6, #FBBF24, #F97316); filter: blur(32px);"></div>
-                <!-- Main Image Frame -->
-                <div class="absolute inset-6 rounded-full overflow-hidden border-2 border-white/10 shadow-2xl">
-                    <img src="uploads/hero_agri.png" alt="Modern Agriculture" class="w-full h-full object-cover opacity-80" style="filter: saturate(1.3) contrast(1.1);">
-                    <div class="absolute inset-0" style="background: linear-gradient(145deg, rgba(98,157,37,0.2) 0%, rgba(20,74,5,0.2) 100%);"></div>
-                </div>
-                <!-- Floating badge top -->
-                <div class="absolute -top-4 right-12 bg-white rounded-2xl shadow-2xl px-5 py-3 flex items-center gap-3 border border-green-100">
-                    <span class="text-2xl">⭐</span>
-                    <div><p class="text-xs text-slate-400 font-bold uppercase tracking-widest">রেটিং</p><p class="font-black text-slate-900">5.0 / 5.0</p></div>
-                </div>
-                <!-- Floating badge bottom -->
-                <div class="absolute -bottom-4 left-8 bg-white rounded-2xl shadow-2xl px-5 py-3 flex items-center gap-3 border border-emerald-100">
-                    <span class="text-2xl">🚀</span>
-                    <div><p class="text-xs text-slate-400 font-bold uppercase tracking-widest">দ্রুত</p><p class="font-black text-slate-900">২৪ ঘণ্টা ডেলিভারি</p></div>
-                </div>
             </div>
         </div>
     </div>
-
-    <!-- Bottom Fade -->
-    <div class="absolute bottom-0 left-0 right-0 h-24" style="background: linear-gradient(to bottom, transparent, #edf2f4);"></div>
 </section>
 
 <!-- ===========================
