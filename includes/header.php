@@ -19,7 +19,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME . ' - প্রিমিয়াম কৃষি পণ্য ও সরঞ্জাম'; ?></title>
+    <title><?php echo isset($pageTitle) ? $pageTitle . ' | ' . get_setting('site_name', 'কৃষিভাই') : get_setting('site_name', 'কৃষিভাই') . ' - ' . get_setting('site_tagline', 'প্রিমিয়াম কৃষি পণ্য ও সরঞ্জাম'); ?></title>
     <meta name="description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
 
     <!-- Favicon -->
@@ -29,14 +29,14 @@ try {
     <!-- Open Graph / Facebook / WhatsApp -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="<?php echo SITE_URL . $_SERVER['REQUEST_URI']; ?>">
-    <meta property="og:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME; ?>">
+    <meta property="og:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . get_setting('site_name', 'কৃষিভাই') : get_setting('site_name', 'কৃষিভাই'); ?>">
     <meta property="og:description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
     <meta property="og:image" content="<?php echo SITE_URL; ?>/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="<?php echo SITE_URL . $_SERVER['REQUEST_URI']; ?>">
-    <meta property="twitter:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME; ?>">
+    <meta property="twitter:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . get_setting('site_name', 'কৃষিভাই') : get_setting('site_name', 'কৃষিভাই'); ?>">
     <meta property="twitter:description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
     <meta property="twitter:image" content="<?php echo SITE_URL; ?>/logo.png">
 
@@ -90,7 +90,7 @@ try {
     <div class="flex items-center justify-center gap-2 md:gap-4 animate-scroll md:animate-none">
         <span>🚚 সারা বাংলাদেশে হোম ডেলিভারি</span>
         <span class="opacity-30">|</span>
-        <span>📞 <a href="tel:<?php echo SITE_PHONE_RAW; ?>" class="hover:underline" style="color: #ffffff;"><?php echo SITE_PHONE; ?></a></span>
+        <span>📞 <a href="tel:<?php echo get_setting('site_phone'); ?>" class="hover:underline" style="color: #ffffff;"><?php echo get_setting('site_phone'); ?></a></span>
         <span class="opacity-30 hidden md:inline">|</span>
         <span class="hidden md:inline">💬 সকাল ১০টা - রাত ৮টা পর্যন্ত খোলা</span>
     </div>
@@ -104,7 +104,7 @@ try {
 
             <!-- Logo -->
             <a href="<?php echo SITE_URL; ?>" class="flex-shrink-0 flex items-center gap-2">
-                <img src="<?php echo SITE_URL; ?>/logo.png" alt="কৃষিভাই" class="h-10 md:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/200x80/629d25/ffffff?text=Krishibhai';">
+                <img src="<?php echo SITE_URL; ?>/logo.png" alt="<?php echo get_setting('site_name', 'কৃষিভাই'); ?>" class="h-10 md:h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/200x80/629d25/ffffff?text=<?php echo urlencode(get_setting('site_name', 'Krishibhai')); ?>';">
             </a>
 
             <!-- Category Dropdown (Desktop) -->
@@ -177,7 +177,7 @@ try {
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-green-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
                 </button>
  
-                <a href="tel:<?php echo SITE_PHONE_RAW; ?>" class="hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition">
+                <a href="tel:<?php echo get_setting('site_phone'); ?>" class="hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition">
                     📞 <span>কল করুন</span>
                 </a>
                 <!-- Mobile Menu Button -->
