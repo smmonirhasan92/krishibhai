@@ -3,30 +3,54 @@ ob_start();
 require_once __DIR__ . '/../includes/db.php';
 
 // Handle Add/Edit/Delete Category
+$message = "";
+$error = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cat_name'])) {
     $name = trim($_POST['cat_name']);
-    $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
     $cat_id = $_POST['cat_id'] ?? null;
     $hero_image = $_POST['existing_image'] ?? null;
 
-    if (!empty($_FILES['cat_image']['name'])) {
-        $upload_dir = __DIR__ . '/../assets/uploads/ca/';
-        if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
-        $file_ext = pathinfo($_FILES['cat_image']['name'], PATHINFO_EXTENSION);
-        $file_name = $slug . '-' . time() . '.' . $file_ext;
-        if (move_uploaded_file($_FILES['cat_image']['tmp_name'], $upload_dir . $file_name)) {
-            $hero_image = 'assets/uploads/ca/' . $file_name;
-        }
-    }
+    if (empty($name)) {
+        $error = "❌ ক্যাটাগরির নাম দেওয়া আবশ্যক!";
+    } else {
+        try {
+            // Robust Slug generation and uniqueness check
+            $base_slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
+            if (!$base_slug) $base_slug = 'category';
 
-    if (!empty($name)) {
-        if (!empty($cat_id)) {
-            $pdo->prepare("UPDATE categories SET name=?, slug=?, hero_image=? WHERE id=?")->execute([$name, $slug, $hero_image, $cat_id]);
-        } else {
-            $pdo->prepare("INSERT INTO categories (name, slug, hero_image) VALUES (?, ?, ?)")->execute([$name, $slug, $hero_image]);
+            $slug = $base_slug;
+            $counter = 1;
+            while (true) {
+                $check = $pdo->prepare("SELECT id FROM categories WHERE slug = ? AND id != ?");
+                $check->execute([$slug, (int)$cat_id]);
+                if (!$check->fetch()) break;
+                $slug = $base_slug . '-' . $counter++;
+            }
+
+            if (!empty($_FILES['cat_image']['name'])) {
+                $upload_dir = __DIR__ . '/../assets/uploads/ca/';
+                if (!is_dir($upload_dir)) mkdir($upload_dir, 0777, true);
+                $file_ext = pathinfo($_FILES['cat_image']['name'], PATHINFO_EXTENSION);
+                $file_name = $slug . '-' . time() . '.' . $file_ext;
+                if (move_uploaded_file($_FILES['cat_image']['tmp_name'], $upload_dir . $file_name)) {
+                    $hero_image = 'assets/uploads/ca/' . $file_name;
+                }
+            }
+
+            if (!empty($cat_id)) {
+                $pdo->prepare("UPDATE categories SET name=?, slug=?, hero_image=? WHERE id=?")->execute([$name, $slug, $hero_image, $cat_id]);
+                $message = "✅ ক্যাটাগরি সফলভাবে আপডেট করা হয়েছে!";
+            } else {
+                $pdo->prepare("INSERT INTO categories (name, slug, hero_image) VALUES (?, ?, ?)")->execute([$name, $slug, $hero_image]);
+                $message = "✅ ক্যাটাগরি সফলভাবে যোগ করা হয়েছে!";
+            }
+            // If it's a success, we could redirect, but let's keep it to show the message first
+            header("Location: categories.php?msg=" . urlencode($message)); exit();
+        } catch (Exception $e) {
+            $error = "❌ ত্রুটি: " . $e->getMessage();
         }
     }
-    header("Location: categories.php"); exit();
 }
 
 if (isset($_GET['delete'])) {
