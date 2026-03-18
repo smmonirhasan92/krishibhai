@@ -32,12 +32,18 @@ define('ASSETS_PATH', SITE_URL . '/assets');
 // Portable Homepage Categories (Slugs from categories table)
 define('FEATURED_CATEGORY_SLUGS', ['seeds', 'fertilizer', 'tools', 'pesticides']);
 
-// Security Key
-define('SECRET_KEY', 'zaman_kitchen_secret_v1');
+// Security Key (Generic)
+define('SECRET_KEY', 'app_secret_v1_678234');
 
-// Error Reporting (Set to 0 for production)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Error Reporting (Set to 0 for production to keep site "Humanized" and secure)
+define('IS_PRODUCTION', false); // Set to true for live site
+if (IS_PRODUCTION) {
+    error_reporting(0);
+    ini_set('display_errors', 0);
+} else {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+}
 
 // Timezone
 date_default_timezone_set('Asia/Dhaka');

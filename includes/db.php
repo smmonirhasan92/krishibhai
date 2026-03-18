@@ -13,6 +13,7 @@ try {
     ];
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
 } catch (\PDOException $e) {
-    // In production, log error instead of displaying
-    die("Database connection failed: " . $e->getMessage());
+    // Humanized: Log error instead of displaying raw stack trace to users
+    error_log("DB Connection Error: " . $e->getMessage());
+    die("আমাদের সার্ভারে সাময়িক সমস্যা হচ্ছে। দয়াকরে কিছুক্ষণ পর চেষ্টা করুন। (Connection error)");
 }

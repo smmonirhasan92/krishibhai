@@ -56,5 +56,6 @@ try {
 
 } catch (Exception $e) {
     $pdo->rollBack();
-    echo json_encode(['success' => false, 'message' => 'Order system error. Please call us: ' . $e->getMessage()]);
+    error_log("Order System Error: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'অর্ডার সিস্টেমের কিছু সমস্যা হচ্ছে। দয়া করে আমাদের কল করুন: ' . SITE_PHONE]);
 }
