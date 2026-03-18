@@ -29,10 +29,16 @@ try {
         // Auto-migrate: ensure stock_reduced exists in orders table
         try {
             $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS stock_reduced TINYINT(1) DEFAULT 0");
-        } catch(Exception $e) {
-            // IF NOT EXISTS might not be supported, try direct add but catch "duplicate column" error
-            try { $pdo->exec("ALTER TABLE orders ADD COLUMN stock_reduced TINYINT(1) DEFAULT 0"); } catch(Exception $e2) {}
-        }
+        // Auto-migrate: ensure leads table exists
+        try {
+            $pdo->exec("CREATE TABLE IF NOT EXISTS leads (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                phone VARCHAR(50) NOT NULL,
+                message TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+        } catch(Exception $e) {}
 
         $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
         while ($row = $stmt->fetch()) {

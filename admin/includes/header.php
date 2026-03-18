@@ -21,7 +21,7 @@ $nav_items = [
     ['label' => 'অর্ডার',     'icon' => 'package',       'url' => 'orders.php'],
     ['label' => 'পণ্য',       'icon' => 'tag',           'url' => 'products.php'],
     ['label' => 'ক্যাটাগরি',   'icon' => 'folder-simple', 'url' => 'categories.php'],
-    ['label' => 'ইনকোয়ারি',  'icon' => 'envelope',      'url' => 'inquiries.php'],
+    ['label' => 'পরামর্শ ও জিজ্ঞাসা', 'icon' => 'envelope',      'url' => 'inquiries.php'],
     ['label' => 'স্লাইডার',    'icon' => 'images',        'url' => 'slides.php'],
     ['label' => 'ইনভেন্টরি',   'icon' => 'stack',         'url' => 'inventory.php'],
     ['label' => 'বারকোড স্ক্যান','icon' => 'barcode',       'url' => 'barcode-scanner.php'],
