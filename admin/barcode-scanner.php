@@ -160,21 +160,36 @@ function renderProductResult(p) {
                 </div>
 
                 <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
-                    <h4 class="text-xs font-black text-emerald-800 uppercase mb-3">কুইক আপডেট</h4>
+                    <h4 class="text-xs font-black text-emerald-800 uppercase mb-3">কাউন্টার সেল (POS)</h4>
+                    <div class="flex gap-2">
+                        <div class="flex-1">
+                            <label class="text-[9px] font-black text-emerald-700 uppercase mb-1 block">পরিমাণ</label>
+                            <input type="number" id="sale-qty" value="1" min="1" class="w-full bg-white border border-emerald-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-emerald-500">
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="recordSale(\${p.id})" id="btn-sell" class="btn btn-primary py-2.5 bg-slate-900 border-slate-900 hover:bg-black w-full justify-center">
+                                <i class="ph ph-shopping-bag"></i> বিক্রি করুন
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                    <h4 class="text-xs font-black text-slate-500 uppercase mb-3">কুইক আপডেট</h4>
                     <form onsubmit="updateProduct(event, \${p.id})" class="flex gap-2">
                         <div class="flex-1">
-                            <label class="text-[9px] font-black text-emerald-700 uppercase mb-1 block">নতুন মূল্য</label>
-                            <input type="number" id="update-price" value="\${p.price}" class="w-full bg-white border border-emerald-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-emerald-500">
+                            <label class="text-[9px] font-black text-slate-400 uppercase mb-1 block">নতুন মূল্য</label>
+                            <input type="number" id="update-price" value="\${p.price}" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-green-500">
                         </div>
                         <div class="flex-1">
-                            <label class="text-[9px] font-black text-emerald-700 uppercase mb-1 block">অবস্থা</label>
-                            <select id="update-status" class="w-full bg-white border border-emerald-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-emerald-500">
+                            <label class="text-[9px] font-black text-slate-400 uppercase mb-1 block">অবস্থা</label>
+                            <select id="update-status" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-green-500">
                                 <option value="In Stock" \${p.stock_status === 'In Stock' ? 'selected' : ''}>স্টকে আছে</option>
                                 <option value="Out of Stock" \${p.stock_status === 'Out of Stock' ? 'selected' : ''}>স্টকে নেই</option>
                             </select>
                         </div>
                         <div class="flex items-end">
-                            <button type="submit" class="btn btn-primary py-2.5">সেভ করুন</button>
+                            <button type="submit" class="btn btn-ghost py-2.5 border-slate-200 text-slate-600">সেভ</button>
                         </div>
                     </form>
                 </div>

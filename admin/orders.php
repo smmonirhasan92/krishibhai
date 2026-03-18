@@ -6,8 +6,60 @@ $allowed = ['Pending', 'Processing', 'Delivered', 'Cancelled'];
 
 // Handle status update
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['status'])) {
-    if (in_array($_POST['status'], $allowed)) {
-        $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?")->execute([$_POST['status'], $_POST['order_id']]);
+    $orderId = $_POST['order_id'];
+    $newStatus = $_POST['status'];
+    
+    if (in_array($newStatus, $allowed)) {
+        try {
+            $pdo->beginTransaction();
+            
+            // 1. Get current order info
+            $stmt = $pdo->prepare("SELECT status, stock_reduced FROM orders WHERE id = ? FOR UPDATE");
+            $stmt->execute([$orderId]);
+            $order = $stmt->fetch();
+            
+            if ($order) {
+                // 2. If changing to Delivered and stock hasn't been reduced yet
+                if ($newStatus === 'Delivered' && $order['stock_reduced'] == 0) {
+                    // Fetch items
+                    $items = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");
+                    $items->execute([$orderId]);
+                    $orderItems = $items->fetchAll();
+                    
+                    foreach ($orderItems as $item) {
+                        $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?")
+                            ->execute([$item['quantity'], $item['product_id']]);
+                    }
+                    
+                    // Update order status and set stock_reduced flag
+                    $pdo->prepare("UPDATE orders SET status = ?, stock_reduced = 1 WHERE id = ?")
+                        ->execute([$newStatus, $orderId]);
+                } 
+                // 3. If reversing from Delivered (Optional: Restore stock)
+                else if ($newStatus !== 'Delivered' && $order['status'] === 'Delivered' && $order['stock_reduced'] == 1) {
+                    $items = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");
+                    $items->execute([$orderId]);
+                    $orderItems = $items->fetchAll();
+                    
+                    foreach ($orderItems as $item) {
+                        $pdo->prepare("UPDATE products SET stock_qty = stock_qty + ? WHERE id = ?")
+                            ->execute([$item['quantity'], $item['product_id']]);
+                    }
+                    
+                    $pdo->prepare("UPDATE orders SET status = ?, stock_reduced = 0 WHERE id = ?")
+                        ->execute([$newStatus, $orderId]);
+                }
+                else {
+                    // Simple status update
+                    $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?")->execute([$newStatus, $orderId]);
+                }
+            }
+            
+            $pdo->commit();
+        } catch (Exception $e) {
+            if ($pdo->inTransaction()) $pdo->rollBack();
+            error_log("Order Status Update Error: " . $e->getMessage());
+        }
     }
     header("Location: orders.php"); exit();
 }
