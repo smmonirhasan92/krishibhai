@@ -12,6 +12,16 @@ $product = null;
 $message = "";
 $error = "";
 
+// Ensure price_rules table exists (Move outside condition to cover Add New flow)
+$pdo->exec("CREATE TABLE IF NOT EXISTS price_rules (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    min_qty INT NOT NULL,
+    discount_type ENUM('fixed', 'percentage') DEFAULT 'fixed',
+    value DECIMAL(10,2) NOT NULL,
+    is_active TINYINT(1) DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)");
 
 // Fetch Product for editing
 if ($id && is_numeric($id)) {
@@ -25,22 +35,16 @@ if ($id && is_numeric($id)) {
         $product['specifications'] = json_decode($product['specifications'] ?? '[]', true) ?: [];
         $product['gallery_images'] = json_decode($product['gallery_images'] ?? '[]', true) ?: [];
     }
+}
 
-    // Ensure price_rules table exists
-    $pdo->exec("CREATE TABLE IF NOT EXISTS price_rules (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        product_id INT NOT NULL,
-        min_qty INT NOT NULL,
-        discount_type ENUM('fixed', 'percentage') DEFAULT 'fixed',
-        value DECIMAL(10,2) NOT NULL,
-        is_active TINYINT(1) DEFAULT 1,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
-
-    // Fetch Price Rules
-    $priceRules = $pdo->prepare("SELECT * FROM price_rules WHERE product_id = ? ORDER BY min_qty ASC");
-    $priceRules->execute([$id]);
-    $priceRules = $priceRules->fetchAll();
+// Fetch Price Rules (Safe for new products where $id is null)
+$priceRules = [];
+if ($id) {
+    try {
+        $prStmt = $pdo->prepare("SELECT * FROM price_rules WHERE product_id = ? ORDER BY min_qty ASC");
+        $prStmt->execute([$id]);
+        $priceRules = $prStmt->fetchAll();
+    } catch(Exception $e) {}
 }
 
 // Handle Form Submission
@@ -102,8 +106,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if ($name) {
+    if (!$name) {
+        $error = "❌ পণ্যের নাম দেওয়া আবশ্যক!";
+    } else {
         try {
+            // Slug generation and uniqueness check
+            $base_slug = $slug;
+            if (!$base_slug) {
+                $base_slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name), '-'));
+            }
+            if (!$base_slug) $base_slug = 'product';
+
+            $slug = $base_slug;
+            $counter = 1;
+            while (true) {
+                $check = $pdo->prepare("SELECT id FROM products WHERE slug = ? AND id != ?");
+                $check->execute([$slug, (int)$id]);
+                if (!$check->fetch()) break;
+                $slug = $base_slug . '-' . $counter++;
+            }
+
             if ($id) {
                 $stmt = $pdo->prepare("UPDATE products SET category_id = ?, name = ?, slug = ?, description = ?, price = ?, purchase_price = ?, stock_qty = ?, stock_status = ?, image = ?, meta_title = ?, meta_description = ?, variations = ?, specifications = ?, is_featured = ?, barcode = ? WHERE id = ?");
                 $stmt->execute([$category_id, $name, $slug, $description, $price, $purchase_price, $stock_qty, $stock_status, $main_image, $meta_title, $meta_description, json_encode($variations), json_encode($specifications), $is_featured, $barcode, $id]);
