@@ -12,6 +12,12 @@ try {
     $slides = $pdo->query("SELECT * FROM hero_slides WHERE is_active = 1 ORDER BY order_index ASC")->fetchAll();
 } catch(Exception $e) {}
 
+// Theme Configuration
+$showHero = get_setting('theme_show_hero', '1') == '1';
+$showCats = get_setting('theme_show_categories', '1') == '1';
+$showFeatures = get_setting('theme_show_features', '1') == '1';
+$showInquiry = get_setting('theme_show_inquiry', '1') == '1';
+
 // Fetch 8-12 Categories for Grid
 $gridCats = [];
 try {
@@ -97,16 +103,16 @@ foreach ($rowCategories as $slug) {
     }
 </style>
 
+<?php if($showHero): ?>
 <section class="krishi-hero">
     <div class="container mx-auto px-4">
         <div class="hero-content">
             <h1 class="hero-title">
-                আধুনিক কৃষি<br>
+                <?php echo get_setting('site_name', 'আধুনিক কৃষি'); ?><br>
                 <span style="color: #629d25;">সফল কৃষক</span>
             </h1>
             <p class="hero-subtitle">
-                বাংলাদেশের সেরা মানের বীজ, সার, কীটনাশক এবং আধুনিক কৃষি সরঞ্জাম। 
-                সাশ্রয়ী মূল্যে ঘরে বসেই অর্ডার করুন।
+                <?php echo get_setting('site_tagline', 'বাংলাদেশের সেরা মানের কৃষি সরঞ্জাম।'); ?>
             </p>
             <div class="flex flex-wrap gap-4 justify-center md:justify-start">
                 <a href="#products" class="btn-krishi">
@@ -120,6 +126,7 @@ foreach ($rowCategories as $slug) {
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- ===========================
      CATEGORY NAV + PRODUCT GRID — VIBRANT
@@ -146,6 +153,7 @@ foreach ($rowCategories as $slug) {
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 </style>
+<?php if($showCats): ?>
 <section id="products" class="product-section-bg py-20">
     <div class="container mx-auto px-4">
         <div class="text-center mb-16">
@@ -196,6 +204,7 @@ foreach ($rowCategories as $slug) {
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <script>
     function filterCategory(slug, el) {
@@ -291,6 +300,7 @@ foreach ($rowCategories as $slug) {
 <?php endforeach; ?>
 
 <!-- Quick Inquiry Form: COMPACT & SLIM -->
+<?php if($showInquiry): ?>
 <section class="py-12 bg-white" id="inquiry">
     <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto bg-slate-900 rounded-[2rem] overflow-hidden flex flex-col md:flex-row shadow-2xl">
@@ -299,10 +309,10 @@ foreach ($rowCategories as $slug) {
                 <p class="text-slate-400 text-xs mb-6 leading-relaxed">আমাদের কৃষি বিশেষজ্ঞরা আপনাকে সঠিক পণ্য নির্বাচনে সহায়তা করবে।</p>
                 <div class="space-y-3">
                     <div class="flex items-center gap-3 text-sm font-bold">
-                        <span class="text-green-600">📞</span> <?php echo SITE_PHONE; ?>
+                        <span class="text-green-600">📞</span> <?php echo get_setting('site_phone'); ?>
                     </div>
                     <div class="flex items-center gap-3 text-sm font-bold">
-                        <span class="text-green-600">📍</span> গোপালপুর, টাঙ্গাইল
+                        <span class="text-green-600">📍</span> <?php echo get_setting('site_address'); ?>
                     </div>
                 </div>
             </div>
@@ -319,8 +329,10 @@ foreach ($rowCategories as $slug) {
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- Why Choose Us — Monochrome Red -->
+<?php if($showFeatures): ?>
 <section class="py-24 relative overflow-hidden" style="background: linear-gradient(145deg, #2b2d42 0%, #1a1b2e 60%, #0f0f1a 100%);">
     <div class="absolute inset-0 hero-grid-bg"></div>
     <div class="floating-blob1 absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-10"
@@ -333,7 +345,7 @@ foreach ($rowCategories as $slug) {
             <span class="inline-block text-[10px] font-black uppercase tracking-[0.35em] px-6 py-2 rounded-full mb-6"
                   style="border: 1px solid rgba(98, 157, 37, 0.4); color: #629d25; background: rgba(98, 157, 37, 0.1);">কেন আমরা</span>
             <h2 class="text-4xl md:text-5xl font-black tracking-tight" style="color: #edf2f4;">
-                কেন <span style="background: linear-gradient(135deg, #629d25, #144a05); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">কৃষিভাই?</span>
+                কেন <span style="background: linear-gradient(135deg, #629d25, #144a05); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><?php echo get_setting('site_name', 'কৃষিভাই'); ?>?</span>
             </h2>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -358,6 +370,7 @@ foreach ($rowCategories as $slug) {
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <!-- ===========================
      COMPARE MODAL (Glassmorphism)

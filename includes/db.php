@@ -17,3 +17,40 @@ try {
     error_log("DB Connection Error: " . $e->getMessage());
     die("আমাদের সার্ভারে সাময়িক সমস্যা হচ্ছে। দয়াকরে কিছুক্ষণ পর চেষ্টা করুন। (Connection error)");
 }
+
+/**
+ * Global Settings Fetcher (WP-style Theme Engine)
+ */
+$settings = [];
+try {
+    // Check if table exists first (Silent fail if missing during first migration)
+    $check = $pdo->query("SHOW TABLES LIKE 'settings'")->fetch();
+    if ($check) {
+        $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
+        while ($row = $stmt->fetch()) {
+            $settings[$row['setting_key']] = $row['setting_value'];
+        }
+    }
+} catch (Exception $e) {
+    error_log("Settings Loader Error: " . $e->getMessage());
+}
+
+// Fallback to config constants if database setting is missing
+function get_setting($key, $fallback = '') {
+    global $settings;
+    if (isset($settings[$key])) return $settings[$key];
+    
+    // Fallback to legacy constants if they exist
+    $const_map = [
+        'site_name'    => 'SITE_NAME',
+        'site_phone'   => 'SITE_PHONE',
+        'site_address' => 'SITE_ADDRESS',
+        'site_whatsapp'=> 'SITE_WHATSAPP'
+    ];
+    
+    if (isset($const_map[$key]) && defined($const_map[$key])) {
+        return constant($const_map[$key]);
+    }
+    
+    return $fallback;
+}

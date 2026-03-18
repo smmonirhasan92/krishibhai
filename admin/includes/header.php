@@ -276,6 +276,10 @@ try {
             <i class="ph ph-arrow-square-out"></i>
             <span>ওয়েবসাইট দেখুন</span>
         </a>
+        <a href="settings.php" class="<?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>">
+            <i class="ph ph-gear"></i>
+            <span>সাইট সেটিংস</span>
+        </a>
     </nav>
 
     <!-- User / Logout -->
