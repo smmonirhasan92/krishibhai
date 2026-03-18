@@ -19,24 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['s
             $order = $stmt->fetch();
             
             if ($order) {
-                // 2. If changing to Delivered and stock hasn't been reduced yet
-                if ($newStatus === 'Delivered' && $order['stock_reduced'] == 0) {
-                    // Fetch items
-                    $items = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");
-                    $items->execute([$orderId]);
-                    $orderItems = $items->fetchAll();
-                    
-                    foreach ($orderItems as $item) {
-                        $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?")
-                            ->execute([$item['quantity'], $item['product_id']]);
-                    }
-                    
-                    // Update order status and set stock_reduced flag
-                    $pdo->prepare("UPDATE orders SET status = ?, stock_reduced = 1 WHERE id = ?")
-                        ->execute([$newStatus, $orderId]);
-                } 
-                // 3. If reversing from Delivered (Optional: Restore stock)
-                else if ($newStatus !== 'Delivered' && $order['status'] === 'Delivered' && $order['stock_reduced'] == 1) {
+                // If moving to Cancelled and stock WAS reduced: Restore stock
+                if ($newStatus === 'Cancelled' && $order['stock_reduced'] == 1) {
                     $items = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");
                     $items->execute([$orderId]);
                     $orderItems = $items->fetchAll();
@@ -48,9 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'], $_POST['s
                     
                     $pdo->prepare("UPDATE orders SET status = ?, stock_reduced = 0 WHERE id = ?")
                         ->execute([$newStatus, $orderId]);
+                } 
+                // If moving FROM Cancelled to any active status and stock was NOT reduced/restored: Reduce stock again
+                else if ($newStatus !== 'Cancelled' && $order['status'] === 'Cancelled' && $order['stock_reduced'] == 0) {
+                    $items = $pdo->prepare("SELECT product_id, quantity FROM order_items WHERE order_id = ?");
+                    $items->execute([$orderId]);
+                    $orderItems = $items->fetchAll();
+                    
+                    foreach ($orderItems as $item) {
+                        $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?")
+                            ->execute([$item['quantity'], $item['product_id']]);
+                    }
+                    
+                    $pdo->prepare("UPDATE orders SET status = ?, stock_reduced = 1 WHERE id = ?")
+                        ->execute([$newStatus, $orderId]);
                 }
                 else {
-                    // Simple status update
+                    // Simple status update (e.g., Pending -> Processing -> Delivered)
+                    // These statuses don't affect stock anymore since it's reduced at placement
                     $pdo->prepare("UPDATE orders SET status = ? WHERE id = ?")->execute([$newStatus, $orderId]);
                 }
             }

@@ -26,6 +26,14 @@ try {
     // Check if table exists first (Silent fail if missing during first migration)
     $check = $pdo->query("SHOW TABLES LIKE 'settings'")->fetch();
     if ($check) {
+        // Auto-migrate: ensure stock_reduced exists in orders table
+        try {
+            $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS stock_reduced TINYINT(1) DEFAULT 0");
+        } catch(Exception $e) {
+            // IF NOT EXISTS might not be supported, try direct add but catch "duplicate column" error
+            try { $pdo->exec("ALTER TABLE orders ADD COLUMN stock_reduced TINYINT(1) DEFAULT 0"); } catch(Exception $e2) {}
+        }
+
         $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
         while ($row = $stmt->fetch()) {
             $settings[$row['setting_key']] = $row['setting_value'];

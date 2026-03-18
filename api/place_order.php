@@ -39,12 +39,17 @@ try {
     $stmt->execute([$name, $phone, $address, $totalAmount]);
     $orderId = $pdo->lastInsertId();
 
-    // Insert Order Items (Stock will be reduced when marked as 'Delivered' in Admin)
+    // Insert Order Items and Update Stock immediately
     $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+    $stockStmt = $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?");
     
     foreach ($items as $item) {
         $itemStmt->execute([$orderId, (int)$item['id'], (int)$item['qty'], (float)$item['price']]);
+        $stockStmt->execute([(int)$item['qty'], (int)$item['id']]);
     }
+
+    // Update order with stock_reduced = 1
+    $pdo->prepare("UPDATE orders SET stock_reduced = 1 WHERE id = ?")->execute([$orderId]);
 
     $pdo->commit();
     echo json_encode(['success' => true, 'order_id' => $orderId]);
