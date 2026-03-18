@@ -127,14 +127,14 @@ foreach ($rowCategories as $slug) {
 <style>
     #products { position: relative; }
     .cat-pill-item.active .cat-pill-inner {
-        background: linear-gradient(135deg, #ef233c, #d80032);
+        background: linear-gradient(135deg, #629d25, #144a05);
         color: #edf2f4;
-        box-shadow: 0 15px 35px -8px rgba(239,35,60,0.5);
+        box-shadow: 0 15px 35px -8px rgba(98, 157, 37, 0.5);
         transform: translateY(-6px) scale(1.05);
-        border-color: #ef233c !important;
+        border-color: #629d25 !important;
     }
     .cat-pill-item.active .cat-name {
-        color: #ef233c !important;
+        color: #144a05 !important;
         font-weight: 900;
     }
     .cat-pill-inner { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -142,7 +142,7 @@ foreach ($rowCategories as $slug) {
         background: linear-gradient(180deg, #edf2f4 0%, #f5f5f7 60%, #edf2f4 100%);
     }
     .section-heading-accent {
-        background: linear-gradient(135deg, #ef233c 0%, #d80032 100%);
+        background: linear-gradient(135deg, #144a05 0%, #629d25 100%);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 </style>
@@ -178,7 +178,7 @@ foreach ($rowCategories as $slug) {
                         <span class="text-3xl opacity-20">🍽️</span>
                     <?php endif; ?>
                 </div>
-                <span class="cat-name block text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-red-500 transition-colors"><?php echo htmlspecialchars($cat['name']); ?></span>
+                <span class="cat-name block text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-green-600 transition-colors"><?php echo htmlspecialchars($cat['name']); ?></span>
             </div>
             <?php endforeach; ?>
         </div>

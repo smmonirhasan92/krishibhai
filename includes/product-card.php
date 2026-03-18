@@ -15,7 +15,7 @@ $jsData = json_encode([
 ?>
 <style>
 .zk-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-.zk-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.18), 0 0 0 1px rgba(239,35,60,0.12); }
+.zk-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.18), 0 0 0 1px rgba(98,157,37,0.12); }
 .zk-card:hover .zk-img { transform: scale(1.08); }
 .zk-img { transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
 .zk-buy-btn {
@@ -25,15 +25,15 @@ $jsData = json_encode([
 }
 .zk-buy-btn::before {
     content: ''; position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s;
-    background: linear-gradient(135deg, #ef233c, #d80032);
+    background: linear-gradient(135deg, #629d25, #144a05);
 }
 .zk-buy-btn:hover::before { opacity: 1; }
 .zk-buy-btn span { position: relative; z-index: 1; }
 .zk-price-tag {
-    background: linear-gradient(135deg, #ef233c, #d80032);
+    background: linear-gradient(135deg, #144a05, #629d25);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-.zk-wishlist-btn:hover { background: rgba(239,35,60,0.08); border-color: #ef233c; color: #ef233c; }
+.zk-wishlist-btn:hover { background: rgba(98, 157, 37, 0.08); border-color: #629d25; color: #629d25; }
 </style>
 <div onclick='openQuickView(<?php echo $jsData; ?>)' class="zk-card cursor-pointer bg-white rounded-2xl overflow-hidden border border-gray-100/80 flex flex-col relative shadow-sm hover:shadow-2xl" style="box-shadow: 0 4px 15px -3px rgba(0,0,0,0.06);">
     <div class="overflow-hidden relative bg-slate-50" style="padding-top: 78%; display:flex; align-items:center; justify-content:center;">
@@ -54,7 +54,7 @@ $jsData = json_encode([
         
         <?php if (!empty($p['is_featured'])): ?>
         <span class="absolute top-3 left-3 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md z-10"
-              style="background: linear-gradient(135deg, #ef233c, #d80032);">⭐ Featured</span>
+              style="background: linear-gradient(135deg, #629d25, #144a05);">⭐ Featured</span>
         <?php endif; ?>
         
         <!-- Quick action buttons overlay -->
@@ -68,7 +68,7 @@ $jsData = json_encode([
             </button>
             <!-- Compare -->
             <button onclick="event.stopPropagation(); toggleCompare(<?php echo htmlspecialchars($jsData); ?>)" 
-                class="w-8 h-8 rounded-xl bg-white/90 backdrop-blur border border-slate-100 flex items-center justify-center text-slate-400 hover:text-red-500 hover:border-red-200 shadow-sm transition" title="Compare">
+                class="w-8 h-8 rounded-xl bg-white/90 backdrop-blur border border-slate-100 flex items-center justify-center text-slate-400 hover:text-green-600 hover:border-green-200 shadow-sm transition" title="Compare">
                 <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                 </svg>
@@ -77,7 +77,7 @@ $jsData = json_encode([
     </div>
     <!-- Info -->
     <div class="p-4 flex flex-col flex-1">
-        <h3 class="font-black text-slate-900 text-sm leading-tight mb-3 line-clamp-2 group-hover:text-red-600 transition" style="letter-spacing: -0.01em;">
+        <h3 class="font-black text-slate-900 text-sm leading-tight mb-3 line-clamp-2 group-hover:text-green-600 transition" style="letter-spacing: -0.01em;">
             <?php echo htmlspecialchars($p['name']); ?>
         </h3>
         <div class="mt-auto pt-3 flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-50 gap-2">
@@ -89,7 +89,7 @@ $jsData = json_encode([
             <div class="flex items-center gap-1 relative z-20">
                 <!-- Add to Bag -->
                 <button onclick="event.stopPropagation(); addToCart(<?php echo htmlspecialchars(json_encode($p)); ?>);"
-                    class="h-9 w-9 flex-shrink-0 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-red-50 text-slate-500 hover:text-red-500 border border-slate-100 hover:border-red-100 transition group/btn shadow-sm">
+                    class="h-9 w-9 flex-shrink-0 flex items-center justify-center rounded-xl bg-slate-50 hover:bg-green-50 text-slate-500 hover:text-green-500 border border-slate-100 hover:border-green-100 transition group/btn shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
