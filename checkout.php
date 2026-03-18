@@ -109,7 +109,7 @@ include_once __DIR__ . '/includes/header.php';
         <!-- Product Summary -->
         <?php if ($product): ?>
         <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-6 flex gap-4 items-center shadow-sm">
-            <img src="<?php echo htmlspecialchars($product['main_image'] ?? $product['image_url'] ?? ''); ?>" 
+            <img src="<?php echo htmlspecialchars($product['image'] ?? $product['main_image'] ?? $product['image_url'] ?? ''); ?>" 
                 class="w-20 h-20 rounded-xl object-cover bg-gray-100" 
                 onerror="this.style.display='none'"
                 alt="<?php echo htmlspecialchars($product['name']); ?>">

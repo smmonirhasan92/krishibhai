@@ -39,7 +39,7 @@ if (!$product) {
 $pageTitle = htmlspecialchars($product['name']);
 $pageDesc  = substr(strip_tags($product['description'] ?? ''), 0, 160);
 $gallery   = json_decode($product['gallery_images'] ?? '[]', true) ?: [];
-array_unshift($gallery, $product['main_image'] ?? $product['image_url'] ?? '');
+array_unshift($gallery, $product['image'] ?? $product['main_image'] ?? $product['image_url'] ?? '');
 $gallery   = array_filter($gallery);
 
 include_once __DIR__ . '/includes/header.php';
