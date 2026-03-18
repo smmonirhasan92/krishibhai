@@ -4,6 +4,7 @@
  * Supports single and bulk printing.
  */
 require_once __DIR__ . '/../includes/db.php';
+session_start();
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: ../admin/index.php");

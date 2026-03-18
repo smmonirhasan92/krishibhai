@@ -39,10 +39,16 @@ try {
     $stmt->execute([$name, $phone, $address, $totalAmount]);
     $orderId = $pdo->lastInsertId();
 
-    // Insert Order Items
+    // Insert Order Items and Update Stock
     $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+    $stockStmt = $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ? AND stock_qty >= ?");
+    
     foreach ($items as $item) {
+        // Insert item
         $itemStmt->execute([$orderId, $item['id'], $item['qty'], $item['price']]);
+        
+        // Reduce stock
+        $stockStmt->execute([(int)$item['qty'], (int)$item['id'], (int)$item['qty']]);
     }
 
     $pdo->commit();

@@ -110,6 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "❌ পণ্যের নাম দেওয়া আবশ্যক!";
     } else {
         try {
+            // Auto-generate barcode if empty
+            if (empty($barcode)) {
+                $prefix = strtoupper(substr(preg_replace('/[^A-Za-z0-9]/', '', $name), 0, 3));
+                if (!$prefix) $prefix = "KB";
+                $barcode = $prefix . '-' . date('ymd') . '-' . substr(str_shuffle("0123456789"), 0, 4);
+            }
+
             // Slug generation and uniqueness check
             $base_slug = $slug;
             if (!$base_slug) {
