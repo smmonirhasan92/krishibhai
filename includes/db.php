@@ -43,6 +43,30 @@ try {
                 message TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+            
+            // Auto-migrate: ensure hero_slides table exists
+            $pdo->exec("CREATE TABLE IF NOT EXISTS hero_slides (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                subtitle TEXT NULL,
+                button_text VARCHAR(100) DEFAULT 'Explore',
+                button_link VARCHAR(255) DEFAULT '#',
+                image_path VARCHAR(255) NOT NULL,
+                order_index INT DEFAULT 0,
+                is_active TINYINT(1) DEFAULT 1,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // Auto-migrate: ensure price_rules table exists
+            $pdo->exec("CREATE TABLE IF NOT EXISTS price_rules (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                product_id INT NOT NULL,
+                min_qty INT NOT NULL,
+                discount_type ENUM('fixed', 'percentage') DEFAULT 'fixed',
+                value DECIMAL(10,2) NOT NULL,
+                is_active TINYINT(1) DEFAULT 1,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
         } catch(Exception $e) {}
 
         $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");
