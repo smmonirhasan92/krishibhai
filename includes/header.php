@@ -22,6 +22,24 @@ try {
     <title><?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME . ' - প্রিমিয়াম কৃষি পণ্য ও সরঞ্জাম'; ?></title>
     <meta name="description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?php echo SITE_URL; ?>/logo.png">
+    <link rel="apple-touch-icon" href="<?php echo SITE_URL; ?>/logo.png">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?php echo SITE_URL . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="og:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME; ?>">
+    <meta property="og:description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
+    <meta property="og:image" content="<?php echo SITE_URL; ?>/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<?php echo SITE_URL . $_SERVER['REQUEST_URI']; ?>">
+    <meta property="twitter:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . SITE_NAME : SITE_NAME; ?>">
+    <meta property="twitter:description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
+    <meta property="twitter:image" content="<?php echo SITE_URL; ?>/logo.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Swiper CSS -->
