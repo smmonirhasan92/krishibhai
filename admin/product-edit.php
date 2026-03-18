@@ -26,6 +26,17 @@ if ($id && is_numeric($id)) {
         $product['gallery_images'] = json_decode($product['gallery_images'] ?? '[]', true) ?: [];
     }
 
+    // Ensure price_rules table exists
+    $pdo->exec("CREATE TABLE IF NOT EXISTS price_rules (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        product_id INT NOT NULL,
+        min_qty INT NOT NULL,
+        discount_type ENUM('fixed', 'percentage') DEFAULT 'fixed',
+        value DECIMAL(10,2) NOT NULL,
+        is_active TINYINT(1) DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )");
+
     // Fetch Price Rules
     $priceRules = $pdo->prepare("SELECT * FROM price_rules WHERE product_id = ? ORDER BY min_qty ASC");
     $priceRules->execute([$id]);
