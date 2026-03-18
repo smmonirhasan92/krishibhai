@@ -29,6 +29,11 @@ try {
         // Auto-migrate: ensure stock_reduced exists in orders table
         try {
             $pdo->exec("ALTER TABLE orders ADD COLUMN IF NOT EXISTS stock_reduced TINYINT(1) DEFAULT 0");
+        } catch(Exception $e) {
+            // IF NOT EXISTS might not be supported, try direct add
+            try { $pdo->exec("ALTER TABLE orders ADD COLUMN stock_reduced TINYINT(1) DEFAULT 0"); } catch(Exception $e2) {}
+        }
+
         // Auto-migrate: ensure leads table exists
         try {
             $pdo->exec("CREATE TABLE IF NOT EXISTS leads (
