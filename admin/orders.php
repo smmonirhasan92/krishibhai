@@ -133,6 +133,9 @@ $orders = $orders->fetchAll();
                     ?></span></td>
                     <td style="color:#9ca3af; font-size:0.8125rem;"><?php echo date('d M, Y', strtotime($o['created_at'])); ?></td>
                     <td style="text-align:right;">
+                        <a href="invoice.php?id=<?php echo $o['id']; ?>" target="_blank" class="btn btn-ghost" style="padding:0.375rem; margin-right:0.5rem;" title="প্রিন্ট ইনভয়েস">
+                            <i class="ph ph-printer" style="font-size:1.1rem;"></i>
+                        </a>
                         <form method="POST" style="display:inline-flex; align-items:center; gap:0.5rem;">
                             <input type="hidden" name="order_id" value="<?php echo $o['id']; ?>">
                             <select name="status" class="admin-input" style="width:auto; padding:0.375rem 0.625rem; font-size:0.8125rem;">

@@ -161,7 +161,11 @@ function renderProductResult(p) {
 
                 <div class="bg-emerald-50 border border-emerald-100 rounded-2xl p-4">
                     <h4 class="text-xs font-black text-emerald-800 uppercase mb-3">কাউন্টার সেল (POS)</h4>
-                    <div class="flex gap-2">
+                    <div id="pos-success-msg" class="hidden bg-emerald-100 text-emerald-700 p-3 rounded-xl mb-4 text-xs font-bold border border-emerald-200">
+                        সফলভাবে বিক্রি করা হয়েছে! 
+                        <a id="print-link" href="#" target="_blank" class="underline ml-2">ইনভয়েস প্রিন্ট করুন</a>
+                    </div>
+                    <div class="flex gap-2" id="pos-controls">
                         <div class="flex-1">
                             <label class="text-[9px] font-black text-emerald-700 uppercase mb-1 block">পরিমাণ</label>
                             <input type="number" id="sale-qty" value="1" min="1" class="w-full bg-white border border-emerald-200 rounded-lg px-3 py-2 text-sm font-bold outline-none focus:border-emerald-500">
@@ -240,6 +244,33 @@ async function updateProduct(e, id) {
     
     submitBtn.disabled = false;
     submitBtn.innerHTML = 'Save';
+}
+
+async function recordSale(id) {
+    const qty = document.getElementById('sale-qty').value;
+    const btn = document.getElementById('btn-sell');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="ph ph-spinner animate-spin"></i>';
+
+    try {
+        const response = await fetch('api-pos-sale.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ product_id: id, qty: qty })
+        });
+        const data = await response.json();
+        if(data.success) {
+            document.getElementById('pos-success-msg').classList.remove('hidden');
+            document.getElementById('print-link').href = 'invoice.php?id=' + data.order_id;
+            document.getElementById('pos-controls').classList.add('opacity-50', 'pointer-events-none');
+            lookupBarcode(document.getElementById('manual-barcode').value || ''); // Refresh background
+        } else {
+            alert('ত্রুটি: ' + data.message);
+        }
+    } catch (err) { alert('বিক্রি রেকর্ড করতে ব্যর্থ হয়েছে।'); }
+    
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ph ph-shopping-bag"></i> বিক্রি করুন';
 }
 
 function toggleScanner() {

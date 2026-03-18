@@ -46,7 +46,7 @@ try {
     $pdo->prepare("UPDATE products SET stock_qty = stock_qty - ? WHERE id = ?")->execute([$qty, $productId]);
 
     $pdo->commit();
-    echo json_encode(['success' => true, 'message' => 'Sale recorded successfully!']);
+    echo json_encode(['success' => true, 'message' => 'Sale recorded successfully!', 'order_id' => $orderId]);
 
 } catch (Exception $e) {
     if ($pdo->inTransaction()) $pdo->rollBack();
