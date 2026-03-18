@@ -37,9 +37,13 @@ try {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($adminTitle ?? 'ড্যাশবোর্ড'); ?> — কৃষিভাই এডমিন</title>
+    
+    <!-- App-like Mobile Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f1117">
+    <meta name="mobile-web-app-capable" content="yes">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="../logo.png">
@@ -69,6 +73,8 @@ try {
             height: 100vh; position: sticky; top: 0;
             display: flex; flex-direction: column;
             overflow: hidden;
+            transition: transform 0.3s ease;
+            z-index: 50;
         }
         .sidebar-logo {
             padding: 1.5rem 1.5rem 1rem;
@@ -136,8 +142,36 @@ try {
             height: 60px; background: #ffffff;
             border-bottom: 1px solid #e5e7eb;
             display: flex; align-items: center;
-            padding: 0 2rem; gap: 1rem; flex-shrink: 0;
+            padding: 0 1.5rem; gap: 1rem; flex-shrink: 0;
             position: sticky; top: 0; z-index: 40;
+        }
+        
+        /* Mobile Adjustments */
+        @media (max-width: 1024px) {
+            #admin-sidebar {
+                position: fixed;
+                left: 0;
+                transform: translateX(-100%);
+            }
+            #admin-sidebar.active {
+                transform: translateX(0);
+            }
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 45;
+                backdrop-filter: blur(4px);
+            }
+            #sidebar-overlay.active {
+                display: block;
+            }
+            #admin-topbar { padding: 0 1rem; }
+            .admin-page-body { padding: 1rem; }
+            .topbar-actions .topbar-btn span { display: none; }
+            .kpi-card { padding: 1rem; }
+            .kpi-value { font-size: 1.5rem; }
         }
         .topbar-title { font-size: 1rem; font-weight: 800; color: #111827; }
         .topbar-breadcrumb { font-size: 0.75rem; color: #9ca3af; margin-top: 1px; }
@@ -239,9 +273,17 @@ try {
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 4px; }
     </style>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('admin-sidebar').classList.toggle('active');
+            document.getElementById('sidebar-overlay').classList.toggle('active');
+        }
+    </script>
     <?php echo $adminExtraHead ?? ''; ?>
 </head>
 <body>
+
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 <!-- SIDEBAR -->
 <aside id="admin-sidebar">
@@ -301,6 +343,9 @@ try {
 <div id="admin-main">
     <!-- Top Bar -->
     <div id="admin-topbar">
+        <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+            <i class="ph ph-list" style="font-size:1.5rem;"></i>
+        </button>
         <div>
             <div class="topbar-title"><?php echo htmlspecialchars($adminTitle ?? 'Dashboard'); ?></div>
             <div class="topbar-breadcrumb"><?php echo date('l, F j, Y'); ?></div>

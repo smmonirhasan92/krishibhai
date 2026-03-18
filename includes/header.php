@@ -34,11 +34,13 @@ try {
     <meta property="og:image" content="<?php echo SITE_URL; ?>/logo.png">
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="<?php echo SITE_URL . $_SERVER['REQUEST_URI']; ?>">
-    <meta property="twitter:title" content="<?php echo isset($pageTitle) ? $pageTitle . ' | ' . get_setting('site_name', 'কৃষিভাই') : get_setting('site_name', 'কৃষিভাই'); ?>">
-    <meta property="twitter:description" content="<?php echo isset($pageDesc) ? $pageDesc : "বাংলাদেশের সেরা কৃষি পণ্য, বীজ, সার এবং সরঞ্জাম। অনলাইনে অর্ডার করুন দ্রুত ডেলিভারি সহ।"; ?>">
     <meta property="twitter:image" content="<?php echo SITE_URL; ?>/logo.png">
+
+    <!-- App-like Mobile Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#629d25">
+    <meta name="mobile-web-app-capable" content="yes">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -190,14 +192,46 @@ try {
         </div>
     </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 bg-white">
-        <div class="container mx-auto px-4 py-3 grid grid-cols-2 gap-2">
-            <?php foreach($categories as $cat): ?>
-            <a href="<?php echo SITE_URL; ?>/category/<?php echo $cat['slug']; ?>" class="text-sm text-gray-700 hover:text-red-600 font-medium py-1.5 px-2">
-                <?php echo htmlspecialchars($cat['name']); ?>
-            </a>
-            <?php endforeach; ?>
-        </div>
     </div>
 </header>
+
+<!-- ===== BOTTOM NAVIGATION (MOBILE APP FEEL) ===== -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-6 py-2 z-[60] flex justify-between items-center shadow-[0_-5px_15px_rgba(0,0,0,0.05)] pb-safe-area">
+    <a href="<?php echo SITE_URL; ?>" class="flex flex-col items-center gap-1 text-green-600">
+        <i class="ph ph-house-line text-2xl"></i>
+        <span class="text-[10px] font-bold">হোম</span>
+    </a>
+    <a href="<?php echo SITE_URL; ?>#products" class="flex flex-col items-center gap-1 text-gray-400">
+        <i class="ph ph-squares-four text-2xl"></i>
+        <span class="text-[10px] font-bold">ক্যাটাগরি</span>
+    </a>
+    <button onclick="toggleCart()" class="flex flex-col items-center gap-1 text-gray-400 relative">
+        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white -mt-8 border-4 border-white shadow-lg">
+            <i class="ph ph-shopping-cart text-2xl"></i>
+        </div>
+        <span class="text-[10px] font-bold mt-1 text-green-600">কার্ট</span>
+        <span id="cart-count-mobile" class="absolute top-[-25px] right-0 bg-red-500 text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">0</span>
+    </button>
+    <a href="<?php echo SITE_URL; ?>/wishlist.php" class="flex flex-col items-center gap-1 text-gray-400">
+        <i class="ph ph-heart text-2xl"></i>
+        <span class="text-[10px] font-bold">উইশলিস্ট</span>
+    </a>
+    <a href="<?php echo SITE_URL; ?>/login.php" class="flex flex-col items-center gap-1 text-gray-400">
+        <i class="ph ph-user text-2xl"></i>
+        <span class="text-[10px] font-bold">প্রোফাইল</span>
+    </a>
+</div>
+
+<style>
+    .pb-safe-area { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
+</style>
+
+<script>
+    // Sync mobile cart count
+    function syncMobileCart() {
+        const count = document.getElementById('cart-count').innerText;
+        const mob = document.getElementById('cart-count-mobile');
+        if(mob) mob.innerText = count;
+    }
+    setInterval(syncMobileCart, 1000);
+</script>
