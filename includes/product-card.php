@@ -13,7 +13,7 @@ $jsData = json_encode([
     'description' => $p['description'] ?? 'Premium quality kitchen appliance.'
 ], JSON_HEX_APOS);
 ?>
-<<style>
+<style>
 .item-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 .item-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.18), 0 0 0 1px rgba(98,157,37,0.12); }
 .item-card:hover .zk-img { transform: scale(1.08); }
