@@ -90,6 +90,14 @@ include_once __DIR__ . '/includes/header.php';
 
             <div class="flex items-baseline gap-3 mb-6">
                 <span class="text-4xl font-extrabold text-green-600">৳ <?php echo number_format($product['price']); ?></span>
+                <?php if (!empty($product['old_price']) && $product['old_price'] > $product['price']): 
+                    $discount = round((($product['old_price'] - $product['price']) / $product['old_price']) * 100);
+                    ?>
+                <span class="text-xl text-gray-400 line-through decoration-rose-300 font-bold italic">৳ <?php echo number_format($product['old_price']); ?></span>
+                <span class="bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md">
+                    <?php echo $discount; ?>% ছাড়
+                </span>
+                <?php endif; ?>
                 <span class="text-sm <?php echo ($product['stock_status'] ?? 'In Stock') === 'In Stock' ? 'text-green-600 bg-green-50' : 'text-red-600 bg-red-50'; ?> font-bold px-3 py-1 rounded-full">
                     <?php echo ($product['stock_status'] ?? 'In Stock') === 'In Stock' ? 'স্টক আছে' : 'স্টক নেই'; ?>
                 </span>

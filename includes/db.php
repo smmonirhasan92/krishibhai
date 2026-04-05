@@ -67,6 +67,13 @@ try {
                 is_active TINYINT(1) DEFAULT 1,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+            // Auto-migrate: ensure categories has parent_id and sort_order
+            try { $pdo->exec("ALTER TABLE categories ADD COLUMN parent_id INT DEFAULT NULL"); } catch(Exception $e) {}
+            try { $pdo->exec("ALTER TABLE categories ADD COLUMN sort_order INT DEFAULT 0"); } catch(Exception $e) {}
+
+            // Auto-migrate: ensure products has old_price
+            try { $pdo->exec("ALTER TABLE products ADD COLUMN old_price DECIMAL(10,2) DEFAULT NULL"); } catch(Exception $e) {}
         } catch(Exception $e) {}
 
         $stmt = $pdo->query("SELECT setting_key, setting_value FROM settings");

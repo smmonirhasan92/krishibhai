@@ -56,6 +56,14 @@ $jsData = json_encode([
         <span class="absolute top-3 left-3 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md z-10"
               style="background: linear-gradient(135deg, #629d25, #144a05);">⭐ Featured</span>
         <?php endif; ?>
+
+        <?php if (!empty($p['old_price']) && $p['old_price'] > $p['price']): 
+            $discount = round((($p['old_price'] - $p['price']) / $p['old_price']) * 100);
+            ?>
+        <span class="absolute top-3 left-3 <?php echo !empty($p['is_featured']) ? 'mt-8' : ''; ?> bg-rose-500 text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full shadow-md z-10">
+            <?php echo $discount; ?>% ছাড়
+        </span>
+        <?php endif; ?>
         
         <!-- Quick action buttons overlay -->
         <div class="absolute top-3 right-3 z-20 flex flex-col gap-2">
@@ -83,7 +91,12 @@ $jsData = json_encode([
         <div class="mt-auto pt-3 flex flex-col sm:flex-row sm:items-center justify-between border-t border-slate-50 gap-2">
             <div class="flex flex-col">
                 <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Price</span>
-                <span class="text-sm md:text-lg font-black price-tag-accent leading-none">৳ <?php echo number_format($p['price']); ?></span>
+                <div class="flex items-baseline gap-1.5">
+                    <span class="text-sm md:text-lg font-black price-tag-accent leading-none">৳ <?php echo number_format($p['price']); ?></span>
+                    <?php if (!empty($p['old_price']) && $p['old_price'] > $p['price']): ?>
+                    <span class="text-[10px] md:text-xs text-slate-400 line-through decoration-rose-300 font-bold">৳<?php echo number_format($p['old_price']); ?></span>
+                    <?php endif; ?>
+                </div>
             </div>
             
             <div class="flex items-center gap-1 relative z-20">

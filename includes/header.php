@@ -1,6 +1,6 @@
 <?php
 /**
- * Zaman Kitchens - Header Component
+ * Krishibhai - Header Component
  * Features: Sticky header, Category Dropdown, Search Bar
  */
 if (session_status() === PHP_SESSION_NONE) {
@@ -11,7 +11,7 @@ require_once __DIR__ . '/db.php';
 // Fetch categories for mega dropdown
 $categories = [];
 try {
-    $categories = $pdo->query("SELECT id, name, slug FROM categories ORDER BY name ASC")->fetchAll();
+    $categories = $pdo->query("SELECT id, name, slug, parent_id FROM categories ORDER BY sort_order ASC, name ASC")->fetchAll();
 } catch(Exception $e) {}
 ?>
 <!DOCTYPE html>
@@ -121,14 +121,28 @@ try {
                     </svg>
                 </button>
                 <!-- Dropdown Menu -->
-                <div class="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 p-2 hidden group-hover:block min-w-56 z-50">
-                    <?php foreach($categories as $cat): ?>
-                    <a href="<?php echo SITE_URL; ?>#products" 
-                       onclick="if(window.location.pathname === '/' || window.location.pathname === '/index.php') { event.preventDefault(); filterCategory('<?php echo $cat['slug']; ?>', document.querySelector('.cat-circle-item[onclick*=\\'<?php echo $cat['slug']; ?>\\']')); }"
-                       class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-700 hover:bg-green-50 hover:text-green-700 font-medium transition">
-                        <span class="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></span>
-                        <?php echo htmlspecialchars($cat['name']); ?>
-                    </a>
+                <div class="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-2xl border border-gray-100 p-2 hidden group-hover:block min-w-56 z-50 max-h-[70vh] overflow-y-auto scrollbar-hide">
+                    <?php 
+                    $mainCats = array_filter($categories, fn($c) => empty($c['parent_id']));
+                    foreach($mainCats as $cat): 
+                        $subs = array_filter($categories, fn($c) => $c['parent_id'] == $cat['id']);
+                    ?>
+                    <div class="category-group">
+                        <a href="<?php echo SITE_URL; ?>#products" 
+                           onclick="if(window.location.pathname === '/' || window.location.pathname === '/index.php') { event.preventDefault(); filterCategory('<?php echo $cat['slug']; ?>', document.querySelector('.cat-circle-item[onclick*=\\'<?php echo $cat['slug']; ?>\\']')); }"
+                           class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-900 hover:bg-green-50 hover:text-green-700 font-bold transition">
+                            <span class="w-2 h-2 <?php echo !empty($subs) ? 'bg-green-600' : 'bg-green-300'; ?> rounded-full flex-shrink-0"></span>
+                            <?php echo htmlspecialchars($cat['name']); ?>
+                        </a>
+                        <?php foreach($subs as $sub): ?>
+                        <a href="<?php echo SITE_URL; ?>#products" 
+                           onclick="if(window.location.pathname === '/' || window.location.pathname === '/index.php') { event.preventDefault(); filterCategory('<?php echo $sub['slug']; ?>', document.querySelector('.cat-circle-item[onclick*=\\'<?php echo $sub['slug']; ?>\\']')); }"
+                           class="flex items-center gap-2 pl-8 pr-3 py-1.5 rounded-lg text-[13px] text-gray-600 hover:bg-green-50 hover:text-green-700 font-medium transition">
+                            <i class="ph ph-arrow-turn-down-right text-[10px] opacity-40"></i>
+                            <?php echo htmlspecialchars($sub['name']); ?>
+                        </a>
+                        <?php endforeach; ?>
+                    </div>
                     <?php endforeach; ?>
                 </div>
             </div>

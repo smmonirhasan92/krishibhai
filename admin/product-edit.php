@@ -53,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $slug = trim($_POST['slug'] ?? '') ?: strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $name)));
     $category_id = $_POST['category_id'] ?? null;
     $price = $_POST['price'] ?? 0;
+    $old_price = !empty($_POST['old_price']) ? $_POST['old_price'] : null;
     $purchase_price = $_POST['purchase_price'] ?? 0;
     $stock_qty = (int)($_POST['stock_qty'] ?? 0);
     $stock_status = $_POST['stock_status'] ?? 'In Stock';
@@ -134,12 +135,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if ($id) {
-                $stmt = $pdo->prepare("UPDATE products SET category_id = ?, name = ?, slug = ?, description = ?, price = ?, purchase_price = ?, stock_qty = ?, stock_status = ?, image = ?, meta_title = ?, meta_description = ?, variations = ?, specifications = ?, is_featured = ?, barcode = ? WHERE id = ?");
-                $stmt->execute([$category_id, $name, $slug, $description, $price, $purchase_price, $stock_qty, $stock_status, $main_image, $meta_title, $meta_description, json_encode($variations), json_encode($specifications), $is_featured, $barcode, $id]);
+                $stmt = $pdo->prepare("UPDATE products SET category_id = ?, name = ?, slug = ?, description = ?, price = ?, old_price = ?, purchase_price = ?, stock_qty = ?, stock_status = ?, image = ?, meta_title = ?, meta_description = ?, variations = ?, specifications = ?, is_featured = ?, barcode = ? WHERE id = ?");
+                $stmt->execute([$category_id, $name, $slug, $description, $price, $old_price, $purchase_price, $stock_qty, $stock_status, $main_image, $meta_title, $meta_description, json_encode($variations), json_encode($specifications), $is_featured, $barcode, $id]);
                 $message = "পণ্য সফলভাবে আপডেট করা হয়েছে!";
             } else {
-                $stmt = $pdo->prepare("INSERT INTO products (category_id, name, slug, description, price, purchase_price, stock_qty, stock_status, image, meta_title, meta_description, variations, specifications, is_featured, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$category_id, $name, $slug, $description, $price, $purchase_price, $stock_qty, $stock_status, $main_image, $meta_title, $meta_description, json_encode($variations), json_encode($specifications), $is_featured, $barcode]);
+                $stmt = $pdo->prepare("INSERT INTO products (category_id, name, slug, description, price, old_price, purchase_price, stock_qty, stock_status, image, meta_title, meta_description, variations, specifications, is_featured, barcode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([$category_id, $name, $slug, $description, $price, $old_price, $purchase_price, $stock_qty, $stock_status, $main_image, $meta_title, $meta_description, json_encode($variations), json_encode($specifications), $is_featured, $barcode]);
                 $id = $pdo->lastInsertId();
                 $message = "পণ্য সফলভাবে যোগ করা হয়েছে!";
             }
@@ -370,6 +371,10 @@ include_once __DIR__ . '/includes/header.php';
                         <div>
                             <label class="admin-label">বিক্রয় মূল্য (৳)</label>
                             <input type="number" name="price" value="<?php echo $product['price'] ?? 0; ?>" class="admin-input font-black text-emerald-600 bg-emerald-50/30">
+                        </div>
+                        <div>
+                            <label class="admin-label">পুরানো মূল্য / MRP (৳)</label>
+                            <input type="number" step="0.01" name="old_price" value="<?php echo $product['old_price'] ?? ''; ?>" class="admin-input font-bold text-rose-500 bg-rose-50/30" placeholder="e.g. 500">
                         </div>
                         <div>
                             <label class="admin-label">ক্রয় মূল্য (৳)</label>
